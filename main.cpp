@@ -16,10 +16,16 @@ public:
         Name = "名無し"; 
         Age = 0; 
     }
+    //引数ありコンストラクタ
+    CAST(string name, int age)
+    {
+        Name = name;
+        Age = age;
+    }
     //デストラクタ
     virtual ~CAST() 
     { 
-        cout << Name << "「では、さようなら。」" << endl; 
+        cout << Name << "は消え去った。" << endl; 
     }
     //自己紹介する
     virtual void introduceHerself() 
@@ -35,22 +41,6 @@ public:
     { 
         return Age; 
     }
-protected:
-    //引数ありコンストラクタ
-    CAST(string name, int age) 
-    { 
-        Name = name; 
-        Age = age; 
-    }
-    //セッター
-    void name(string name) 
-    { 
-        Name = name; 
-    }
-    void age(int age) 
-    { 
-        Age = age; 
-    }
 };
 //派生クラス
 class HITAGI : public CAST
@@ -63,7 +53,7 @@ public:
     }
     ~HITAGI() 
     { 
-        cout << "切り落とすわよ" << endl; 
+        cout << "「アイ・ラブ・ユー」と言って、" ; 
     }
     //オーバーライド
     void introduceHerself() 
@@ -99,10 +89,9 @@ public:
 class KANBARU : public CAST 
 {
 public:
-    KANBARU() 
-    { 
-        name("神原駿河"); 
-        age(17); 
+    KANBARU()
+        : CAST("神原駿河",17)
+    {
     }
     void introduceHerself() 
     {
@@ -111,7 +100,7 @@ public:
     }
 };
 
-int main(){
+int main() {
     //{
     //    //インスタンス(実例)をつくる
     //    HITAGI hitagi;
@@ -125,29 +114,29 @@ int main(){
     //    kanbaru.introduceHerself();
     //}
     //cout << endl;
-    {
-        //基底クラスのポインタに
-        //派生クラスのインスタンスのアドレスを入れる
-        //インスタンス(実例)をつくる
-        CAST* casts[] = {
-            new HITAGI,  
-            new HANEKAWA,
-            new HATIKUJI,
-            new KANBARU, 
-        };
-        //多態性
-        for (CAST* cast : casts) {
-            //CAST::introduceHerself()にはvirtualを付けておかないと
-            //派生クラスでオーバーライドした関数は呼び出されない。
-            cast->introduceHerself();
-        }
-        //解放
-        //CAST::~CAST()にはvirtualを付けておかないと
-        //派生クラスのデストラクタは呼び出されない。
-        cout << endl;
-        for (CAST* cast : casts) {
-            delete cast;
-        }
+
+    //基底クラスのポインタに
+    //派生クラスのインスタンスのアドレスを入れる
+    //インスタンス(実例)をつくる
+    CAST* casts[] = {
+        new HITAGI,
+        new HANEKAWA,
+        new HATIKUJI,
+        new KANBARU,
+    };
+    //多態性
+    for (CAST* cast : casts) {
+        //CAST::introduceHerself()にはvirtualを付けておかないと
+        //派生クラスでオーバーライドした関数は呼び出されない。
+        cast->introduceHerself();
     }
+    //解放
+    //CAST::~CAST()にはvirtualを付けておかないと
+    //派生クラスのデストラクタは呼び出されない。
+    cout << endl;
+    for (CAST* cast : casts) {
+        delete cast;
+    }
+
     system("pause>0");
 }
